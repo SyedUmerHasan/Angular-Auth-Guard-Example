@@ -1,3 +1,4 @@
+import { AuthService } from './../service/auth.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -8,31 +9,19 @@ import { Router } from '@angular/router';
 })
 export class NavigationBarComponent implements OnInit {
   @Input() public title: string;
+
   login = false;
-  constructor( private router: Router) {
-    this.checkLogin();
-    if (this.login === false) {
-      this.router.navigate(['/signin']);
-    }
+  constructor(private authService: AuthService, private router: Router) {
+    this.login = this.authService.isLoggedIn;
   }
 
   ngOnInit() {
-  }
-
-  checkLogin() {
-    const p = localStorage.getItem('token');
-    if (p === null || p === undefined || p === '' ) {
-      console.log('token is null');
-      this.login = false;
-    } else {
-      this.login = true;
-      console.log('token has some value');
-    }
+    this.login = this.authService.isLoggedIn;
   }
   logout() {
-    localStorage.setItem('token', '');
-    console.log(this.login);
-    this.router.navigate(['/home']);
-    this.login = false;
+    this.authService.logout();
+    this.authService.isLoggedIn = false;
+    this.router.navigateByUrl('/signin');
   }
+
 }

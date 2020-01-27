@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { AuthService } from './../../service/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignUpComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService, private router: Router) {
+  }
 
   ngOnInit() {
   }
